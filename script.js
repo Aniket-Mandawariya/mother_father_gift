@@ -1,5 +1,5 @@
 const revealElements = document.querySelectorAll(
-  ".hero-content, .hero-cards, .section-heading, .memory-card, .story-panel, .timeline-item, .message-card"
+  ".hero-content, .hero-visual, .hero-cards, .intro-panel, .intro-stats, .section-heading, .memory-card, .story-panel, .timeline-item, .message-card"
 );
 
 revealElements.forEach((element) => {
@@ -133,3 +133,18 @@ musicToggle?.addEventListener("click", () => {
 });
 
 updateMusicButton();
+
+const parallaxCard = document.querySelector("[data-parallax]");
+
+parallaxCard?.addEventListener("pointermove", (event) => {
+  const rect = parallaxCard.getBoundingClientRect();
+  const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
+  const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+
+  parallaxCard.style.transform =
+    `perspective(1000px) rotateX(${offsetY * -6}deg) rotateY(${offsetX * 8}deg) translateZ(0)`;
+});
+
+parallaxCard?.addEventListener("pointerleave", () => {
+  parallaxCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+});
