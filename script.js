@@ -23,7 +23,7 @@ const observer = new IntersectionObserver(
 
 revealElements.forEach((element) => observer.observe(element));
 
-const musicToggle = document.getElementById("musicToggle");
+const musicToggles = document.querySelectorAll("[data-music-toggle]");
 let audioContext;
 let masterGain;
 let sequenceTimer;
@@ -115,21 +115,28 @@ function stopMelody() {
 }
 
 function updateMusicButton() {
-  musicToggle.textContent = isPlaying ? "Pause Lovely Tune" : "Play Lovely Tune";
-  musicToggle.classList.toggle("is-playing", isPlaying);
-  musicToggle.setAttribute("aria-pressed", String(isPlaying));
+  musicToggles.forEach((button) => {
+    const isDockButton = button.classList.contains("dock-music");
+    button.textContent = isPlaying
+      ? isDockButton ? "Pause" : "Pause Lovely Tune"
+      : isDockButton ? "Tune" : "Play Lovely Tune";
+    button.classList.toggle("is-playing", isPlaying);
+    button.setAttribute("aria-pressed", String(isPlaying));
+  });
 }
 
-musicToggle?.addEventListener("click", () => {
-  isPlaying = !isPlaying;
+musicToggles.forEach((button) => {
+  button.addEventListener("click", () => {
+    isPlaying = !isPlaying;
 
-  if (isPlaying) {
-    startMelody();
-  } else {
-    stopMelody();
-  }
+    if (isPlaying) {
+      startMelody();
+    } else {
+      stopMelody();
+    }
 
-  updateMusicButton();
+    updateMusicButton();
+  });
 });
 
 updateMusicButton();

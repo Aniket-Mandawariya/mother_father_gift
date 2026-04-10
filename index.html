@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#140f11">
   <title>Happy Anniversary Mom & Dad</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -37,7 +38,7 @@
             <a class="button button-ghost" href="#message">Read the Message</a>
           </div>
 
-          <button class="music-toggle" type="button" id="musicToggle" aria-pressed="false">
+          <button class="music-toggle" type="button" data-music-toggle aria-pressed="false">
             Play Lovely Tune
           </button>
         </div>
@@ -113,6 +114,12 @@
           <h2>Memories Framed with Warmth</h2>
           <p>
             A few precious glimpses of the bond that continues to inspire everyone around you.
+          </p>
+        </div>
+
+        <div class="gallery-banner glass-card">
+          <p>
+            Every picture here holds a little piece of your laughter, your care, and the love that made our home beautiful.
           </p>
         </div>
 
@@ -204,6 +211,16 @@
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <p>Happy Anniversary to the most inspiring couple in our world.</p>
+    </footer>
+
+    <div class="mobile-dock">
+      <a href="#gallery" class="dock-link">Memories</a>
+      <button class="dock-link dock-music" type="button" data-music-toggle aria-pressed="false">Tune</button>
+      <a href="#message" class="dock-link">Message</a>
+    </div>
   </div>
 
   <script src="script.js"></script>
