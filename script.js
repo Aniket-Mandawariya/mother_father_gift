@@ -1,5 +1,5 @@
 const revealElements = document.querySelectorAll(
-  ".hero-content, .hero-visual, .hero-cards, .intro-panel, .intro-stats, .section-heading, .memory-card, .story-panel, .timeline-item, .message-card"
+  ".hero-content, .hero-visual, .hero-cards, .blessing-strip, .intro-panel, .intro-stats, .section-heading, .gallery-banner, .memory-card, .story-panel, .timeline-item, .message-card, .closing-card"
 );
 
 revealElements.forEach((element) => {
