@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#140f11">
+  <title>Want Some Break</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body.game-page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    .game-shell {
+      position: relative;
+      width: min(1100px, calc(100% - 24px));
+      min-height: 92vh;
+      padding: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 237, 221, 0.14);
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at top, rgba(255, 154, 118, 0.18), transparent 30%),
+        linear-gradient(160deg, rgba(23, 15, 18, 0.96), rgba(39, 21, 22, 0.94));
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.32);
+      isolation: isolate;
+    }
+
+    .game-shell::before,
+    .game-shell::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      border-radius: 50%;
+      filter: blur(12px);
+      opacity: 0.32;
+      z-index: -1;
+    }
+
+    .game-shell::before {
+      width: 220px;
+      height: 220px;
+      top: -70px;
+      right: -60px;
+      background: radial-gradient(circle, rgba(244, 199, 139, 0.72), transparent 68%);
+    }
+
+    .game-shell::after {
+      width: 260px;
+      height: 260px;
+      left: -90px;
+      bottom: -90px;
+      background: radial-gradient(circle, rgba(255, 154, 118, 0.72), transparent 68%);
+    }
+
+    .game-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .game-back {
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid rgba(255, 237, 221, 0.16);
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: rgba(255, 250, 246, 0.05);
+    }
+
+    .game-stage {
+      position: relative;
+      min-height: 72vh;
+      border: 1px solid rgba(255, 237, 221, 0.14);
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255, 250, 246, 0.07), rgba(255, 250, 246, 0.03)),
+        radial-gradient(circle at 10% 20%, rgba(244, 199, 139, 0.08), transparent 22%);
+      overflow: hidden;
+    }
+
+    .game-copy {
+      max-width: 720px;
+      padding: 34px 34px 12px;
+    }
+
+    .game-copy h1 {
+      margin: 10px 0 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      line-height: 0.95;
+    }
+
+    .game-copy p {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 620px;
+    }
+
+    .try-note {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 237, 221, 0.14);
+      background: rgba(255, 250, 246, 0.05);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .runner-button,
+    .home-win {
+      position: absolute;
+      min-width: 190px;
+      min-height: 58px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .runner-button {
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+      color: #1c1110;
+      background: linear-gradient(135deg, #ffd9a9, #ffaf8c);
+      box-shadow: 0 18px 38px rgba(255, 154, 118, 0.28);
+    }
+
+    .home-win {
+      left: 50%;
+      bottom: 34px;
+      transform: translateX(-50%);
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(255, 154, 118, 0.22), rgba(244, 199, 139, 0.16));
+      border: 1px solid rgba(255, 237, 221, 0.2);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .home-win.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .spark {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 216, 168, 0.7);
+      box-shadow: 0 0 0 10px rgba(255, 216, 168, 0.08);
+      animation: twinkle 3.4s ease-in-out infinite;
+    }
+
+    .spark.one { top: 16%; left: 12%; }
+    .spark.two { top: 24%; right: 15%; animation-delay: -1s; }
+    .spark.three { bottom: 26%; left: 18%; animation-delay: -1.8s; }
+    .spark.four { bottom: 20%; right: 22%; animation-delay: -2.5s; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @media (max-width: 640px) {
+      .game-shell {
+        min-height: 94vh;
+        padding: 16px;
+        border-radius: 28px;
+      }
+
+      .game-stage {
+        min-height: 78vh;
+      }
+
+      .game-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .game-copy {
+        padding: 24px 20px 8px;
+      }
+
+      .runner-button,
+      .home-win {
+        min-width: 160px;
+        min-height: 54px;
+        padding: 0 18px;
+      }
+    }
+  </style>
+</head>
+<body class="game-page">
+  <div class="page-shell">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="grain"></div>
+    <div class="petals" aria-hidden="true">
+      <span class="petal petal-one"></span>
+      <span class="petal petal-two"></span>
+      <span class="petal petal-three"></span>
+      <span class="petal petal-four"></span>
+      <span class="petal petal-five"></span>
+      <span class="petal petal-six"></span>
+    </div>
+
+    <main class="game-shell">
+      <div class="game-topbar">
+        <div>
+          <p class="eyebrow">Tiny Fun Break</p>
+          <strong>Catch it if you can</strong>
+        </div>
+        <a class="game-back" href="index.html">Back to Anniversary Page</a>
+      </div>
+
+      <section class="game-stage" id="gameStage">
+        <div class="spark one"></div>
+        <div class="spark two"></div>
+        <div class="spark three"></div>
+        <div class="spark four"></div>
+
+        <div class="game-copy">
+          <p class="eyebrow">Just For Smiles</p>
+          <h1>Want Some Break?</h1>
+          <p>
+            This button is a little mischievous. Try to catch it. After enough attempts,
+            it will finally give up and show you the happy way home.
+          </p>
+          <div class="try-note" id="tryNote">Attempts: 0</div>
+        </div>
+
+        <button class="runner-button" id="runnerButton" type="button">Want Some Break</button>
+        <a class="home-win" id="homeWin" href="index.html" aria-hidden="true">Go Live your life</a>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

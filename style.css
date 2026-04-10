@@ -277,6 +277,12 @@ img {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.button-fun {
+  color: var(--text);
+  border: 1px solid rgba(255, 154, 118, 0.42);
+  background: linear-gradient(135deg, rgba(255, 154, 118, 0.18), rgba(244, 199, 139, 0.08));
+}
+
 .music-toggle {
   margin-top: 18px;
   min-height: 48px;
